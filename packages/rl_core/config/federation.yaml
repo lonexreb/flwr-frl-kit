@@ -1,0 +1,4 @@
+round_train_steps: 2048
+eval_episodes: 5
+# Personalization toggle (shared backbone + local heads)
+personalize: false
