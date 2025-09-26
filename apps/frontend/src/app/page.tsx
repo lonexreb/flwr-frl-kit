@@ -7,79 +7,93 @@ export default function Home() {
   return (
     <>
     <main className="min-h-screen px-6 py-16">
-      <section className="mx-auto w-full max-w-6xl text-center hero-surface p-12 md:p-20">
-        <div className="inline-flex items-center gap-2 rounded-full border border-black/10 dark:border-white/10 px-3 py-1 text-xs text-gray-600 dark:text-gray-300">
-          <span>Project</span>
+      <section className="mx-auto w-full max-w-6xl text-center hero-surface p-12 md:p-20" id="hero">
+        <div className="inline-flex items-center gap-2 rounded-full border border-black/10 dark:border-white/10 px-3 py-1 text-xs text-gray-400">
+          <span>Federated Reinforcement Learning</span>
         </div>
-        <h1 className="mt-4 text-4xl md:text-7xl font-semibold tracking-tight">YOUR TEAM. ONE BRAIN.</h1>
+        <h1 className="mt-4 text-4xl md:text-7xl font-semibold tracking-tight">Sleek FRL. Ship faster.</h1>
         <p className="mt-4 text-base md:text-lg text-gray-300">
-          flwr-frl-kit is a minimal, production-ready Federated RL scaffolding + Strategy for Flower.
+          Minimal kit for Flower: rollouts on clients, staleness-aware aggregation on server, deploy anywhere.
         </p>
-        <p className="mt-2 text-sm md:text-base text-gray-400">
-          Gymnasium-friendly client template, delay-tolerant A2C/A3C aggregation, per-site returns, and secure-agg stubs.
-        </p>
-        <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <input placeholder="Enter your email" className="w-full max-w-xs rounded-md border border-white/10 bg-black/40 px-3 py-2 text-sm placeholder:text-gray-500" />
-          <button className="btn-primary rounded-md px-4 py-2 text-sm font-medium">Get Beta Access</button>
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+          <a href="#quickstart" className="btn-accent rounded-md px-4 py-2 text-sm font-medium">Quickstart</a>
+          <a href="#globe" className="btn-primary rounded-md px-4 py-2 text-sm font-medium">See Network</a>
         </div>
       </section>
 
-      <section id="why-track3" className="mx-auto w-full max-w-4xl mt-16 space-y-3">
-        <h2 className="text-2xl md:text-3xl font-semibold">Why this fits Track-3</h2>
-        <p className="text-gray-700 dark:text-gray-300">
-          It’s infrastructure (Strategy + Mod + examples) rather than a model result, so it’s PR-able. It uses Flower’s Strategy/Message API and runs in Simulation or Deployment Engine (SuperLink/SuperNodes).
-        </p>
+      <section id="why" className="mx-auto w-full max-w-6xl mt-16 grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="reveal rounded-xl border border-white/10 bg-black/40 p-6">
+          <h3 className="text-lg font-semibold">Production-first</h3>
+          <p className="mt-1 text-gray-400">Strategy + client runtime, not a toy repo. Works in sim and deploy.</p>
+        </div>
+        <div className="reveal rounded-xl border border-white/10 bg-black/40 p-6">
+          <h3 className="text-lg font-semibold">Flower-native</h3>
+          <p className="mt-1 text-gray-400">Uses Strategy/Message API. Keep your tools and infra.</p>
+        </div>
+        <div className="reveal rounded-xl border border-white/10 bg-black/40 p-6">
+          <h3 className="text-lg font-semibold">Delay-tolerant</h3>
+          <p className="mt-1 text-gray-400">Staleness-aware weights. Non-IID friendly.</p>
+        </div>
       </section>
 
-      <section id="what-it-solves" className="mx-auto w-full max-w-4xl mt-12 space-y-3">
-        <h2 className="text-2xl md:text-3xl font-semibold">What it solves (plain)</h2>
-        <p className="text-gray-700 dark:text-gray-300">
-          FRL teams keep re-inventing boilerplate to make RL work with FL frameworks (handling streaming, non-IID, staleness). Flower has great building blocks, but no official, batteries-included FRL starter.
-        </p>
-        <p className="text-gray-700 dark:text-gray-300">
-          Policy rollout locally → aggregate policy/value heads server-side with staleness-aware logic.
-        </p>
+      <section id="blocks" className="mx-auto w-full max-w-6xl mt-12 grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="reveal rounded-xl border border-white/10 bg-black/40 p-6">
+          <h3 className="text-lg font-semibold">Client</h3>
+          <p className="mt-1 text-gray-400">Gymnasium rollouts → A2C updates.</p>
+        </div>
+        <div className="reveal rounded-xl border border-white/10 bg-black/40 p-6">
+          <h3 className="text-lg font-semibold">Server</h3>
+          <p className="mt-1 text-gray-400">Aggregate with lag-aware weights.</p>
+        </div>
+        <div className="reveal rounded-xl border border-white/10 bg-black/40 p-6">
+          <h3 className="text-lg font-semibold">Secure agg</h3>
+          <p className="mt-1 text-gray-400">Masking stub, DP-ready.</p>
+        </div>
       </section>
 
-      <section id="kit" className="mx-auto w-full max-w-4xl mt-12 space-y-4">
-        <h2 className="text-2xl md:text-3xl font-semibold">The kit (deliverables)</h2>
-        <ul className="list-disc pl-6 space-y-2 text-gray-700 dark:text-gray-300">
-          <li><strong>FRLClientApp (Gymnasium)</strong>: rollouts N episodes, computes local A2C grads/updates, logs returns/lengths/violations, replies with ArrayRecord(s)+MetricRecord via Message API.</li>
-          <li><strong>DelayAwareA2CStrategy</strong>: sync or semi-async aggregation; down-weights stale clients by age/lag; tracks global return and client contribution.</li>
-          <li><strong>SecureAggStubMod</strong>: API-compatible masking stub to later swap in secure aggregation/DP.</li>
-          <li><strong>Examples</strong>: Simulation (Ray) and Deployment Engine (SuperLink/SuperNodes).</li>
-          <li><strong>Dashboards</strong>: W&B (or CSV) for returns vs rounds, staleness vs weight, time/round, failures.</li>
-          <li><strong>1-click scripts</strong>: sim and deploy flows.</li>
-        </ul>
+      <section id="kit" className="mx-auto w-full max-w-6xl mt-12 grid grid-cols-1 md:grid-cols-3 gap-4 reveal">
+        <div className="rounded-xl border border-white/10 bg-black/40 p-6">
+          <h3 className="text-lg font-semibold">Client runtime</h3>
+          <p className="mt-1 text-gray-400">Gymnasium rollouts, A2C updates, clean logs.</p>
+        </div>
+        <div className="rounded-xl border border-white/10 bg-black/40 p-6">
+          <h3 className="text-lg font-semibold">Strategy</h3>
+          <p className="mt-1 text-gray-400">Staleness-aware aggregation, sync or semi-async.</p>
+        </div>
+        <div className="rounded-xl border border-white/10 bg-black/40 p-6">
+          <h3 className="text-lg font-semibold">Secure agg (stub)</h3>
+          <p className="mt-1 text-gray-400">Masking interface, DP-ready hooks.</p>
+        </div>
+        <div className="rounded-xl border border-white/10 bg-black/40 p-6">
+          <h3 className="text-lg font-semibold">Examples</h3>
+          <p className="mt-1 text-gray-400">Simulation (Ray) and deployment recipes.</p>
+        </div>
+        <div className="rounded-xl border border-white/10 bg-black/40 p-6">
+          <h3 className="text-lg font-semibold">Dashboards</h3>
+          <p className="mt-1 text-gray-400">Returns, staleness, timing, failures.</p>
+        </div>
+        <div className="rounded-xl border border-white/10 bg-black/40 p-6">
+          <h3 className="text-lg font-semibold">1‑click scripts</h3>
+          <p className="mt-1 text-gray-400">Run sim and deploy flows quickly.</p>
+        </div>
       </section>
 
-      <section id="plan" className="mx-auto w-full max-w-4xl mt-12 space-y-4">
-        <h2 className="text-2xl md:text-3xl font-semibold">6-hour build plan</h2>
-        <ol className="list-decimal pl-6 space-y-2 text-gray-700 dark:text-gray-300">
-          <li><strong>Hour 0–1 — Scaffold & baselines</strong>: skeleton via Flower, add Gymnasium CartPole + tiny A2C loop.</li>
-          <li><strong>Hour 1–2 — Strategy (sync)</strong>: implement DelayAwareA2CStrategy with lag-based weights (e.g., w_i ∝ exp(-alpha * staleness_i)).</li>
-          <li><strong>Hour 2–3 — Simulation</strong>: run with Simulation Engine (Ray), validate rounds, returns, timing.</li>
-          <li><strong>Hour 3–4 — Deployment</strong>: start SuperLink + two SuperNodes, confirm identical training flow.</li>
-          <li><strong>Hour 4–5 — Secure-agg + logging</strong>: masking stub, CSV/W&B metrics.</li>
-          <li><strong>Hour 5–6 — Polish & demo</strong>: README, dashboards, demo scripts.</li>
-        </ol>
+      {/* Terminal ASCII art */}
+      <section id="terminal" className="mx-auto w-full max-w-6xl mt-12 reveal">
+        <div className="rounded-xl border border-white/10 bg-black/40 p-6">
+          <pre className="text-[12px] leading-5 text-gray-200 whitespace-pre-wrap">
+{`     ______ _                _____ _____ _     _   _ _ _   
+    |  ___| |              |  ___|  _  | |   | | | (_) |  
+    | |_  | | ___  ___ _ __| |__ | | | | |   | | | |_| |_ 
+    |  _| | |/ _ \/ _ \ '__|  __|| | | | |   | | | | | __|
+    | |   | |  __/  __/ |  | |___\ \_/ / |___\ \_/ / | |_ 
+    \_|   |_|\___|\___|_|  \____/ \___/\____/ \___/|_|\__|
+`}
+          </pre>
+        </div>
       </section>
 
-      <section id="demo" className="mx-auto w-full max-w-4xl mt-12 space-y-3">
-        <h2 className="text-2xl md:text-3xl font-semibold">1-minute demo script</h2>
-        <p className="text-gray-700 dark:text-gray-300">
-          Hook (10s): FRL is hard on real networks... We built flwr-frl-kit.
-        </p>
-        <p className="text-gray-700 dark:text-gray-300">
-          How (20s): Clients roll out episodes, compute A2C updates; strategy aggregates with staleness-aware weights.
-        </p>
-        <p className="text-gray-700 dark:text-gray-300">
-          Proof (20s): Simulation finishes 3 rounds; Deployment over SuperLink/SuperNodes — no code change.
-        </p>
-        <p className="text-gray-700 dark:text-gray-300">Impact (10s): Prototype FRL quickly with hooks for secure agg/DP.</p>
-      </section>
-
-      <section id="commands" className="mx-auto w-full max-w-4xl mt-12">
+      <section id="quickstart" className="mx-auto w-full max-w-4xl mt-12 reveal">
         <h2 className="text-2xl md:text-3xl font-semibold">Quickstart</h2>
         <div className="mt-3 rounded-lg border border-black/10 dark:border-white/10 bg-white/50 dark:bg-black/20 p-4">
           <pre className="whitespace-pre-wrap break-words text-sm md:text-[13px] text-gray-800 dark:text-gray-200">pip install -e . && flwr run .</pre>
@@ -88,7 +102,7 @@ export default function Home() {
       </section>
 
       {/* Feature two-column panel */}
-      <section id="features" className="mx-auto w-full max-w-6xl mt-16">
+      <section id="features" className="mx-auto w-full max-w-6xl mt-16 reveal">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 rounded-xl border border-white/10 bg-black/40 p-6 md:p-8">
           <div className="space-y-3">
             <div className="flex items-center gap-2 text-sm text-gray-400">
@@ -97,10 +111,17 @@ export default function Home() {
             </div>
             <h3 className="text-xl md:text-2xl font-semibold">Your team's knowledge, always accessible.</h3>
             <p className="text-gray-400">Context flows seamlessly from simulation to deployment, preserving the "why" behind every change.</p>
-            <div className="rounded-lg border border-white/10 bg-black/30 p-4 text-sm">
-              <div className="text-gray-400">user-prompt/ui-update</div>
-              <div className="mt-2 font-medium">Add responsive navigation bar to my app</div>
-            </div>
+            <pre className="rounded-lg border border-white/10 bg-black/30 p-4 text-[13px] text-gray-200 overflow-auto">
+{`# Strategy weight (server)
+def weight(staleness, alpha=0.3):
+    return math.exp(-alpha * staleness)
+
+# Client loop (pseudo)
+for episode in range(N):
+    traj = rollout(env, policy)
+    send_update(grad_from(traj))
+`}
+            </pre>
           </div>
           <div className="space-y-3">
             <div className="flex items-center gap-2 text-sm text-gray-400">
@@ -109,20 +130,25 @@ export default function Home() {
             </div>
             <h3 className="text-xl md:text-2xl font-semibold">Context everywhere you code. Works in any IDE.</h3>
             <p className="text-gray-400">Built on Flower Strategy/Message API. Use the tools you are comfortable with.</p>
-            <div className="relative rounded-lg border border-white/10 bg-black/30 p-8">
-              <div className="absolute inset-0 pointer-events-none" style={{background:"radial-gradient(60% 60% at 50% 60%, rgba(239,68,68,0.08), transparent 60%)"}} />
-              <div className="relative flex items-center gap-4 opacity-90">
-                <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10">VS</span>
-                <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10">Py</span>
-                <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10">W&B</span>
-              </div>
-            </div>
+            <pre className="relative rounded-lg border border-white/10 bg-black/30 p-4 text-[13px] text-gray-200 overflow-auto">
+{`# Same API, different algo
+client = RLClient(env, algo="sac")  # or "a2c"
+client.run(rounds=3)
+
+# Metrics schema (printed by Train)
+{
+  "round": int,
+  "return_mean": float,
+  "staleness": float
+}
+`}
+            </pre>
           </div>
         </div>
       </section>
 
       {/* Collaboration section */}
-      <section id="collaboration" className="mx-auto w-full max-w-6xl mt-16">
+      <section id="collaboration" className="mx-auto w-full max-w-6xl mt-16 reveal">
         <div className="rounded-xl border border-white/10 bg-black/40 p-8">
           <h3 className="text-2xl md:text-3xl font-semibold">Shared context, workflows & threads.</h3>
           <p className="mt-2 text-gray-400">Reuse what works, track adoption, and improve together across simulation and deployment.</p>
@@ -130,7 +156,7 @@ export default function Home() {
       </section>
 
       {/* Partners row */}
-      <section id="partners" className="mx-auto w-full max-w-6xl mt-12">
+      <section id="partners" className="mx-auto w-full max-w-6xl mt-12 reveal">
         <div className="rounded-xl border border-white/10 bg-black/40 p-4">
           <div className="text-sm text-gray-400">Backed by</div>
           <div className="mt-3 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4 opacity-80">
@@ -146,12 +172,42 @@ export default function Home() {
 
       <GlobeSection />
 
+      {/* General benefits */}
+      <section id="benefits" className="mx-auto w-full max-w-6xl mt-16 grid grid-cols-1 md:grid-cols-2 gap-6 reveal">
+        <div className="rounded-xl border border-white/10 bg-black/40 p-6 space-y-3">
+          <h3 className="text-xl md:text-2xl font-semibold">What you get</h3>
+          <ul className="list-disc pl-6 text-gray-300 space-y-2">
+            <li>Train prints the exact schema you need</li>
+            <li>Checkpoints saved for Deploy → Eval with the harness</li>
+            <li>Optional Hydra, unit tests, personalization splitter</li>
+            <li>Flip <code>USE_MPS=1</code> for Apple GPU</li>
+            <li>Drop-in SAC next, same <code>RLClient</code> API</li>
+          </ul>
+        </div>
+        <div className="rounded-xl border border-white/10 bg-black/40 p-6">
+          <h4 className="text-sm text-gray-400">Why it’s better</h4>
+          <pre className="mt-2 whitespace-pre-wrap break-words text-[13px] text-gray-200">
+{`# Delay-aware weight (server)
+w_i = exp(-alpha * staleness_i)
+
+# Client update
+adv = R_t - V(s_t)
+g = grad(log pi(a_t|s_t) * adv + beta * H(pi))
+
+# Same API for A2C and SAC
+client = RLClient(env, algo="a2c")
+client.run(rounds=3)
+`}
+          </pre>
+        </div>
+      </section>
+
       <footer className="mx-auto w-full max-w-5xl mt-16 flex items-center justify-between border-t border-black/10 dark:border-white/10 pt-6">
         <p className="text-sm text-gray-600 dark:text-gray-400">© {new Date().getFullYear()} flwr-frl-kit</p>
         <div className="flex items-center gap-4 text-sm">
           <Link href="#kit" className="hover:underline">Kit</Link>
-          <Link href="#plan" className="hover:underline">Plan</Link>
-          <Link href="#demo" className="hover:underline">Demo</Link>
+          <Link href="#benefits" className="hover:underline">Benefits</Link>
+          <Link href="#globe" className="hover:underline">Network</Link>
         </div>
       </footer>
     </main>
