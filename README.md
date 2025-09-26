@@ -1,3 +1,7 @@
+## Federated RL Kit
+
+### Repository structure
+```
 federated-rl/
 ├─ apps/
 │  ├─ frontend/                # Luis
@@ -47,3 +51,14 @@ federated-rl/
 ├─ tests/
 │  └─ ...                      # unit & integration tests
 └─ README.md
+```
+
+### Contributing
+- Propose changes via PRs with a clear description and rationale
+- Keep edits focused; include tests where relevant
+- Match existing code style and formatting
+
+### Roadmap (high-level)
+- Secure aggregation integration
+- Expanded strategy variants for RL aggregation
+- More evaluation tooling and dashboards
