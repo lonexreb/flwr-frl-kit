@@ -44,8 +44,6 @@ rich==13.9.4           # Beautiful terminal output
 typer==0.9.4           # CLI framework
 ```
 
-**Complete requirements.txt** has been generated and is available in the repository root.
-
 #### Frontend Dependencies
 The frontend uses Next.js 15 with modern React:
 ```json
