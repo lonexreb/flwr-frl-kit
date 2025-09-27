@@ -1,0 +1,8 @@
+apps/backend/
+apps/orchestrator/
+packages/
+deploy/
+scripts/
+*.py
+requirements.txt
+pyproject.toml
