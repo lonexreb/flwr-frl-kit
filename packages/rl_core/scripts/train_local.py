@@ -2,7 +2,7 @@ from __future__ import annotations
 import time
 from rich.console import Console
 from rich.table import Table
-from rl_core.client_runtime.a2c_client import A2CClient, A2CConfig
+from ..client_runtime.a2c_client import A2CClient, A2CConfig
 
 def main():
     console = Console()
