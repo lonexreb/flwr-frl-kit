@@ -1,0 +1,13 @@
+{
+  "name": "flwr-frl-kit",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "cd apps/frontend && npm run build",
+    "dev": "cd apps/frontend && npm run dev",
+    "start": "cd apps/frontend && npm run start"
+  },
+  "workspaces": [
+    "apps/frontend"
+  ]
+}

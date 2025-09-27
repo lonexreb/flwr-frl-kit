@@ -1,15 +1,16 @@
 "use client";
 
 import { useEffect, useRef } from "react"
+import type { WebGLRenderer, Scene, PerspectiveCamera } from "three"
 
 export function GlobeSection() {
   const containerRef = useRef<HTMLDivElement | null>(null)
-  const globeRef = useRef<unknown>(null)
+  const globeRef = useRef<{ rotation: { y: number } } | null>(null)
 
   useEffect(() => {
-    let renderer: unknown
-    let scene: unknown
-    let camera: unknown
+    let renderer: WebGLRenderer | undefined
+    let scene: Scene | undefined
+    let camera: PerspectiveCamera | undefined
     let animationId: number | undefined
 
     async function setup() {
@@ -64,7 +65,7 @@ export function GlobeSection() {
       containerRef.current!.appendChild(renderer.domElement)
 
       const onResize = () => {
-        if (!containerRef.current) return
+        if (!containerRef.current || !renderer || !camera) return
         const w = containerRef.current.clientWidth
         const h = 560
         renderer.setSize(w, h)
@@ -74,8 +75,10 @@ export function GlobeSection() {
       window.addEventListener("resize", onResize)
 
       const animate = () => {
-        if (globeRef.current) globeRef.current.rotation.y += 0.0018
-        renderer.render(scene, camera)
+        if (globeRef.current && renderer && scene && camera) {
+          globeRef.current.rotation.y += 0.0018
+          renderer.render(scene, camera)
+        }
         animationId = requestAnimationFrame(animate)
       }
       animate()
