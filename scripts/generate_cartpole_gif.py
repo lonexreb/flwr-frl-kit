@@ -174,18 +174,35 @@ def main():
         action="store_true",
         help="Crop to square around center (default: False)"
     )
+    parser.add_argument(
+        "--generate-multiple",
+        action="store_true",
+        help="Generate 3 GIFs with different initial conditions (default: False)"
+    )
 
     args = parser.parse_args()
 
-    generate_cartpole_gif(
-        output_path=args.output,
-        env_id=args.env_id,
-        seed=args.seed,
-        max_steps=args.max_steps,
-        fps=args.fps,
-        black_background=args.black_background,
-        square_crop=args.square_crop
-    )
+    # Always generate 3 GIFs with different seeds/initial conditions by default
+    seeds = [42, 123, 456]
+    base_name = args.output.replace('.gif', '')
+
+    print("Generating 3 GIFs with different initial conditions...")
+
+    for i, seed in enumerate(seeds, 1):
+        output_path = f"{base_name}_{i}.gif"
+        print(f"\n=== Generating GIF {i}/3 (seed: {seed}) ===")
+
+        generate_cartpole_gif(
+            output_path=output_path,
+            env_id=args.env_id,
+            seed=seed,
+            max_steps=args.max_steps,
+            fps=args.fps,
+            black_background=args.black_background,
+            square_crop=True  # Always crop to square
+        )
+
+    print(f"\n✓ Generated 3 GIFs: {base_name}_1.gif, {base_name}_2.gif, {base_name}_3.gif")
 
 
 if __name__ == "__main__":

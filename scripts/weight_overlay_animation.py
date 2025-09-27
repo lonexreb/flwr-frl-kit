@@ -61,25 +61,24 @@ class WeightOverlayAnimation(Scene):
         arrow1 = VGroup()
         start1 = weight1.get_right() + RIGHT * 0.1
         mid1 = [0.5, 2.5, 0]
-        end1 = [2, -1.5, 0]
+        end1 = [2, 0.5, 0]
         line1_h = Line(start1, mid1, color=BLUE, stroke_width=3)
         line1_v = Line(mid1, end1, color=BLUE, stroke_width=3)
         arrow1.add(line1_h, line1_v)
 
-        # Middle line: goes right then down
-        arrow2 = VGroup()
-        start2 = weight2.get_right() + RIGHT * 0.1
-        mid2 = [0.5, 0, 0]
-        end2 = [2, -2, 0]
-        line2_h = Line(start2, mid2, color=RED, stroke_width=3)
-        line2_v = Line(mid2, end2, color=RED, stroke_width=3)
-        arrow2.add(line2_h, line2_v)
+        # Middle line: straight across
+        arrow2 = Line(
+            weight2.get_right() + RIGHT * 0.1,
+            [2, 0, 0],
+            color=RED,
+            stroke_width=3
+        )
 
-        # Bottom line: goes right then down
+        # Bottom line: goes right then up
         arrow3 = VGroup()
         start3 = weight3.get_right() + RIGHT * 0.1
         mid3 = [0.5, -2.5, 0]
-        end3 = [2, -2.5, 0]
+        end3 = [2, -0.5, 0]
         line3_h = Line(start3, mid3, color=GREEN, stroke_width=3)
         line3_v = Line(mid3, end3, color=GREEN, stroke_width=3)
         arrow3.add(line3_h, line3_v)
@@ -96,7 +95,7 @@ class WeightOverlayAnimation(Scene):
         # Simple average for demonstration
         final_data = (weight1_data + weight2_data + weight3_data) / 3
         final_weight = create_weight_matrix(final_data, "Aggregated Weights", PURPLE)
-        final_weight.move_to([2, -2, 0])
+        final_weight.move_to([2, 0, 0])
 
         # Animate the creation of final weight
         self.play(FadeIn(final_weight), run_time=2)
@@ -118,7 +117,7 @@ class WeightOverlayAnimation(Scene):
 
         self.play(
             FadeOut(everything_else),
-            final_weight.animate.move_to([0, -1, 0]).scale(1.5),
+            final_weight.animate.move_to([0, 0, 0]).scale(1.5),
             run_time=2
         )
 
