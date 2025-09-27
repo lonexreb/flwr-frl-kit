@@ -36,11 +36,19 @@ def generate_cartpole_gif(
         black_background: Convert white background to black
         square_crop: Crop to square around center
     """
-    # Create environment
-    env = make_env(env_id, seed)
-
-    # Enable rendering
+    # Create environment with rendering
     env = gym.make(env_id, render_mode="rgb_array")
+
+    # Modify termination conditions to allow pole to reach 90 degrees
+    # Default is ~12 degrees (0.209 radians), we'll set to 90 degrees (1.57 radians)
+    env.unwrapped.theta_threshold_radians = np.pi / 2  # 90 degrees
+
+    # Also increase cart position threshold to allow more movement
+    env.unwrapped.x_threshold = 10.0  # Default is 2.4
+
+    print(f"Modified termination conditions:")
+    print(f"  Max pole angle: ±{env.unwrapped.theta_threshold_radians:.3f} rad (±{env.unwrapped.theta_threshold_radians * 180 / np.pi:.1f}°)")
+    print(f"  Max cart position: ±{env.unwrapped.x_threshold}")
 
     frames = []
     observation, info = env.reset(seed=seed)
@@ -53,6 +61,12 @@ def generate_cartpole_gif(
 
         # Step environment
         observation, reward, terminated, truncated, info = env.step(action)
+
+        # Debug info
+        if terminated:
+            print(f"  Step {step+1}: Terminated - pole angle: {observation[2]:.3f} rad ({observation[2] * 180 / np.pi:.1f}°), cart pos: {observation[0]:.3f}")
+        if truncated:
+            print(f"  Step {step+1}: Truncated after max steps")
 
         # Capture frame
         frame = env.render()
