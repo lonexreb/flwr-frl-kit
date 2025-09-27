@@ -9,7 +9,7 @@ export function DemoGif() {
   return (
     <div className="aspect-video bg-black/60 rounded-lg border border-white/10 flex items-center justify-center">
       <Image 
-        src="/demo.gif" 
+        src="/3x.gif" 
         alt="FRL Kit Demo" 
         width={800}
         height={450}
