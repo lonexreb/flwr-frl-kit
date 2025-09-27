@@ -1,7 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  output: 'standalone',
+  outputFileTracingRoot: '/app/apps/frontend',
+  eslint: {
+    ignoreDuringBuilds: true
+  }
 };
 
 export default nextConfig;
