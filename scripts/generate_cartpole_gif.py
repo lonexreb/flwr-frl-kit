@@ -23,7 +23,7 @@ def generate_cartpole_gif(
     max_steps: int = 500,
     fps: int = 30,
     black_background: bool = False,
-    square_crop: bool = False
+    square_crop: bool = True
 ):
     """Generate a GIF of a single CartPole run with random actions.
 
@@ -46,9 +46,13 @@ def generate_cartpole_gif(
     # Also increase cart position threshold to allow more movement
     env.unwrapped.x_threshold = 10.0  # Default is 2.4
 
-    print(f"Modified termination conditions:")
+    # Increase pendulum length (default is 0.5)
+    env.unwrapped.length = 2.0  # Quadruple the pendulum length
+
+    print(f"Modified environment parameters:")
     print(f"  Max pole angle: ±{env.unwrapped.theta_threshold_radians:.3f} rad (±{env.unwrapped.theta_threshold_radians * 180 / np.pi:.1f}°)")
     print(f"  Max cart position: ±{env.unwrapped.x_threshold}")
+    print(f"  Pendulum length: {env.unwrapped.length}")
 
     frames = []
     observation, info = env.reset(seed=seed)

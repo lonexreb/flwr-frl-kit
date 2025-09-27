@@ -7,6 +7,8 @@ import numpy as np
 
 class WeightOverlayAnimation(Scene):
     def construct(self):
+        # Set black background
+        self.camera.background_color = BLACK
 
         # Create 3 weight matrices (represented as grids with colors)
         weight1_data = np.random.rand(4, 4) * 0.8 + 0.1  # Client 1 weights
@@ -54,41 +56,33 @@ class WeightOverlayAnimation(Scene):
         )
         self.wait(1)
 
-        # Create elbow arrows (arrows with right angle bends)
-        # Top arrow: goes right then down
+        # Create connecting lines (without arrow heads)
+        # Top line: goes right then down
         arrow1 = VGroup()
         start1 = weight1.get_right() + RIGHT * 0.1
         mid1 = [0.5, 2.5, 0]
-        end1 = [2, 0.5, 0]
+        end1 = [2, -1.5, 0]
         line1_h = Line(start1, mid1, color=BLUE, stroke_width=3)
         line1_v = Line(mid1, end1, color=BLUE, stroke_width=3)
-        # Arrow tip pointing downward
-        arrow1_tip = Triangle(color=BLUE, fill_opacity=1).scale(0.15)
-        arrow1_tip.rotate(-PI/2)  # Point downward
-        arrow1_tip.next_to(end1, DOWN, buff=0)
-        arrow1.add(line1_h, line1_v, arrow1_tip)
+        arrow1.add(line1_h, line1_v)
 
-        # Middle arrow: straight across
-        arrow2 = Arrow(
-            weight2.get_right() + RIGHT * 0.1,
-            [2, 0, 0],
-            color=RED,
-            buff=0,
-            stroke_width=3
-        )
+        # Middle line: goes right then down
+        arrow2 = VGroup()
+        start2 = weight2.get_right() + RIGHT * 0.1
+        mid2 = [0.5, 0, 0]
+        end2 = [2, -2, 0]
+        line2_h = Line(start2, mid2, color=RED, stroke_width=3)
+        line2_v = Line(mid2, end2, color=RED, stroke_width=3)
+        arrow2.add(line2_h, line2_v)
 
-        # Bottom arrow: goes right then up
+        # Bottom line: goes right then down
         arrow3 = VGroup()
         start3 = weight3.get_right() + RIGHT * 0.1
         mid3 = [0.5, -2.5, 0]
-        end3 = [2, -0.5, 0]
+        end3 = [2, -2.5, 0]
         line3_h = Line(start3, mid3, color=GREEN, stroke_width=3)
         line3_v = Line(mid3, end3, color=GREEN, stroke_width=3)
-        # Arrow tip pointing upward
-        arrow3_tip = Triangle(color=GREEN, fill_opacity=1).scale(0.15)
-        arrow3_tip.rotate(PI/2)  # Point upward
-        arrow3_tip.next_to(end3, UP, buff=0)
-        arrow3.add(line3_h, line3_v, arrow3_tip)
+        arrow3.add(line3_h, line3_v)
 
         self.play(
             Create(arrow1),
@@ -102,7 +96,7 @@ class WeightOverlayAnimation(Scene):
         # Simple average for demonstration
         final_data = (weight1_data + weight2_data + weight3_data) / 3
         final_weight = create_weight_matrix(final_data, "Aggregated Weights", PURPLE)
-        final_weight.move_to([2, 0, 0])
+        final_weight.move_to([2, -2, 0])
 
         # Animate the creation of final weight
         self.play(FadeIn(final_weight), run_time=2)
@@ -124,7 +118,7 @@ class WeightOverlayAnimation(Scene):
 
         self.play(
             FadeOut(everything_else),
-            final_weight.animate.move_to([0, 0, 0]).scale(1.5),
+            final_weight.animate.move_to([0, -1, 0]).scale(1.5),
             run_time=2
         )
 
@@ -136,6 +130,8 @@ class WeightOverlayAnimation(Scene):
 
 
 if __name__ == "__main__":
-    # To render the animation, run:
-    # manim weight_overlay_animation.py WeightOverlayAnimation -pql
+    # To render as GIF, run:
+    # manim weight_overlay_animation.py WeightOverlayAnimation --format=gif -r 480,270 --fps 15
+    # or for higher quality:
+    # manim weight_overlay_animation.py WeightOverlayAnimation --format=gif -r 854,480 --fps 30
     pass
