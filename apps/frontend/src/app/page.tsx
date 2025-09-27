@@ -109,8 +109,8 @@ export default function Home() {
               <span className="inline-block h-1.5 w-1.5 rounded-full bg-red-500" />
               <span>Institutional Memory</span>
             </div>
-            <h3 className="text-xl md:text-2xl font-semibold">Your team's knowledge, always accessible.</h3>
-            <p className="text-gray-400">Context flows seamlessly from simulation to deployment, preserving the "why" behind every change.</p>
+            <h3 className="text-xl md:text-2xl font-semibold">Your team&apos;s knowledge, always accessible.</h3>
+            <p className="text-gray-400">Context flows seamlessly from simulation to deployment, preserving the &ldquo;why&rdquo; behind every change.</p>
             <pre className="rounded-lg border border-white/10 bg-black/30 p-4 text-[13px] text-gray-200 overflow-auto">
 {`# Strategy weight (server)
 def weight(staleness, alpha=0.3):
