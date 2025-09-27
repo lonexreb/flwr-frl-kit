@@ -3,6 +3,9 @@ apps/orchestrator/
 packages/
 deploy/
 scripts/
-*.py
+client_entry.py
+test_client.py
+run_local.sh
 requirements.txt
 pyproject.toml
+*.py
