@@ -99,10 +99,17 @@ def main():
     )
 
     # Start Flower client
-    fl.client.start_client(
-        server_address=args.server_address,
-        client=flower_client,
-    )
+    try:
+        fl.client.start_client(
+            server_address=args.server_address,
+            client=flower_client,
+        )
+    except RuntimeError as e:
+        if "generator raised StopIteration" in str(e):
+            logger.error("Connection failed - server may not be running or there's a version compatibility issue")
+            logger.error(f"Attempted to connect to: {args.server_address}")
+        else:
+            raise
 
 
 if __name__ == "__main__":

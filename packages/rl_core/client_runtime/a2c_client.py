@@ -1,6 +1,6 @@
 # packages/rl_core/client_runtime/a2c_client.py
 from __future__ import annotations
-import io, random
+import io, random, logging
 import numpy as np
 import torch as t
 from dataclasses import dataclass
@@ -39,6 +39,9 @@ class A2CClient:
 
         self.last_obs, _ = self.env.reset(seed=cfg.seed)
         self.last_done = False
+        self.total_steps = 0
+        self.logger = logging.getLogger(f"A2CClient-{cfg.env_id}")
+        self.logger.setLevel(logging.INFO)
 
     # --- serialization helpers ---
     def _state_dict_to_bytes(self, state_dict) -> bytes:
@@ -62,6 +65,11 @@ class A2CClient:
     def _rollout(self, T: int):
         obs_buf, act_buf, rew_buf, done_buf, val_buf, logp_buf = [], [], [], [], [], []
         for _ in range(T):
+            # Reset environment if already done from previous rollout
+            if self.last_done:
+                self.last_obs, _ = self.env.reset()
+                self.last_done = False
+
             obs_t = t.as_tensor(self.last_obs, dtype=t.float32).unsqueeze(0)
             dist, value = self.model(obs_t)
             action = dist.sample().item()
@@ -81,6 +89,7 @@ class A2CClient:
             self.last_done = done
             if done:
                 self.last_obs, _ = self.env.reset()
+                self.last_done = False
 
         # bootstrap value
         with t.no_grad():
@@ -109,6 +118,17 @@ class A2CClient:
 
             logs = self.trainer.step(obs, acts, ret, adv, old_logp)
             total += len(rews)
+
+            # Update total steps and log every 1000 steps
+            prev_milestone = self.total_steps // 1000
+            self.total_steps += len(rews)
+            current_milestone = self.total_steps // 1000
+
+            if current_milestone > prev_milestone:
+                self.logger.info(f"Step {self.total_steps}: loss={logs.get('loss', 'N/A'):.4f}, "
+                               f"policy_loss={logs.get('policy_loss', 'N/A'):.4f}, "
+                               f"value_loss={logs.get('value_loss', 'N/A'):.4f}, "
+                               f"entropy={logs.get('entropy', 'N/A'):.4f}")
 
         return {
             "steps": int(total),

@@ -1,6 +1,7 @@
 from __future__ import annotations
 import sys
 import time
+import logging
 from pathlib import Path
 
 # Add project root to path for imports
@@ -12,6 +13,13 @@ from rich.table import Table
 from packages.rl_core.client_runtime.a2c_client import A2CClient, A2CConfig
 
 def main():
+    # Configure logging
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        datefmt='%H:%M:%S'
+    )
+
     console = Console()
     cfg = A2CConfig(env_id="CartPole-v1", seed=17, rollout_len=128)
     client = A2CClient(cfg)
