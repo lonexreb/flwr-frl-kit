@@ -92,20 +92,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Terminal ASCII art */}
-      <section id="terminal" className="mx-auto w-full max-w-6xl mt-12 reveal">
-        <div className="rounded-xl border border-white/10 bg-black/40 p-6">
-          <pre className="text-[12px] leading-5 text-gray-200 whitespace-pre-wrap">
-{`     ______ _                _____ _____ _     _   _ _ _   
-    |  ___| |              |  ___|  _  | |   | | | (_) |  
-    | |_  | | ___  ___ _ __| |__ | | | | |   | | | |_| |_ 
-    |  _| | |/ _ \/ _ \ '__|  __|| | | | |   | | | | | __|
-    | |   | |  __/  __/ |  | |___\ \_/ / |___\ \_/ / | |_ 
-    \_|   |_|\___|\___|_|  \____/ \___/\____/ \___/|_|\__|
-`}
-          </pre>
-        </div>
-      </section>
 
       <section id="quickstart" className="mx-auto w-full max-w-4xl mt-12 reveal">
         <h2 className="text-2xl md:text-3xl font-semibold">Quickstart</h2>
