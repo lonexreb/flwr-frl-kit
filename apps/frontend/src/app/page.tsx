@@ -2,6 +2,7 @@ import Link from "next/link"
 import { CopyButton } from "@/components/copy-button"
 import { DiscordFab } from "@/components/discord-fab"
 import { GlobeSection } from "@/components/globe-section"
+import { DemoGif } from "@/components/demo-gif"
 
 export default function Home() {
   return (
@@ -18,6 +19,19 @@ export default function Home() {
         <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
           <a href="#quickstart" className="btn-accent rounded-md px-4 py-2 text-sm font-medium">Quickstart</a>
           <a href="#globe" className="btn-primary rounded-md px-4 py-2 text-sm font-medium">See Network</a>
+        </div>
+        
+        {/* Demo GIF placeholder */}
+        <div className="mt-8 mx-auto max-w-4xl">
+          <div className="rounded-xl border border-white/10 bg-black/40 p-6">
+            <div className="flex items-center gap-2 text-sm text-gray-400 mb-4">
+              <span className="inline-block h-1.5 w-1.5 rounded-full bg-green-500" />
+              <span>Live Demo</span>
+            </div>
+            <div className="aspect-video bg-black/60 rounded-lg border border-white/10 flex items-center justify-center">
+              <DemoGif />
+            </div>
+          </div>
         </div>
       </section>
 
