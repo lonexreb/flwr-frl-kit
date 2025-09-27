@@ -1,20 +1,15 @@
 "use client";
 
 import { useEffect, useRef } from "react"
-import dynamic from "next/dynamic"
 
-const ThreeGlobe = dynamic(() => import("three-globe"), { ssr: false })
-
-export interface GlobeSectionProps {}
-
-export function GlobeSection(_: GlobeSectionProps) {
+export function GlobeSection() {
   const containerRef = useRef<HTMLDivElement | null>(null)
-  const globeRef = useRef<any>(null)
+  const globeRef = useRef<unknown>(null)
 
   useEffect(() => {
-    let renderer: any
-    let scene: any
-    let camera: any
+    let renderer: unknown
+    let scene: unknown
+    let camera: unknown
     let animationId: number | undefined
 
     async function setup() {
@@ -44,9 +39,9 @@ export function GlobeSection(_: GlobeSectionProps) {
         .arcDashGap(0.7)
         .arcDashAnimateTime(2000)
         .pointsData(pointsWithServer)
-        .pointAltitude((p: any) => p.isServer ? 0.025 : 0.012)
-        .pointColor((p: any) => p.isServer ? "#22c55e" : "#ef4444")
-        .pointRadius((p: any) => p.isServer ? 1.3 : 0.7)
+        .pointAltitude((p: { isServer?: boolean }) => p.isServer ? 0.025 : 0.012)
+        .pointColor((p: { isServer?: boolean }) => p.isServer ? "#22c55e" : "#ef4444")
+        .pointRadius((p: { isServer?: boolean }) => p.isServer ? 1.3 : 0.7)
 
       globeRef.current = globe
       scene.add(globe)

@@ -2,9 +2,7 @@
 
 import { useEffect } from "react"
 
-export interface ScrollRevealProps {}
-
-export function ScrollReveal(_: ScrollRevealProps) {
+export function ScrollReveal() {
   useEffect(() => {
     if (!("IntersectionObserver" in window)) {
       document.querySelectorAll<HTMLElement>(".reveal").forEach(el => el.classList.add("is-visible"))

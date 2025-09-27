@@ -1,15 +1,18 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 export function DemoGif() {
   const [showPlaceholder, setShowPlaceholder] = useState(false);
 
   return (
     <div className="aspect-video bg-black/60 rounded-lg border border-white/10 flex items-center justify-center">
-      <img 
+      <Image 
         src="/demo.gif" 
         alt="FRL Kit Demo" 
+        width={800}
+        height={450}
         className="max-w-full max-h-full rounded-lg"
         onError={() => setShowPlaceholder(true)}
         style={{ display: showPlaceholder ? 'none' : 'block' }}
