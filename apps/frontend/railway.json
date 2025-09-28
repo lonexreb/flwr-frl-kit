@@ -2,7 +2,7 @@
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
     "builder": "NIXPACKS",
-    "buildCommand": "rm -rf node_modules/.cache && npm install --no-optional && npm run build"
+    "buildCommand": "npm install --no-optional && npm run build"
   },
   "deploy": {
     "startCommand": "npm start",
