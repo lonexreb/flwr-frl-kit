@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "FLWR FRL Kit",
+  title: "Tree",
   description: "Minimal landing page",
 };
 
