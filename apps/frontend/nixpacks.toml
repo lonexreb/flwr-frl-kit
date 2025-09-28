@@ -1,11 +1,9 @@
 [phases.setup]
 nixPkgs = ["nodejs_18"]
 
-[phases.install]
-cmds = ["npm install"]
+# Install handled by railway.json buildCommand
 
-[phases.build]
-cmds = ["npm run build"]
+# Build handled by railway.json buildCommand
 
 [start]
 cmd = "npm start"
