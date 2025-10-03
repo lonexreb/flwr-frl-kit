@@ -89,7 +89,8 @@ def main(grid: Grid, context: Context) -> None:
 
     if verbose:
         num_params = sum(p.numel() for p in global_policy.parameters())
-        logger.info(f"Initialized global policy with {num_params:,} parameters")
+        initial_global_norm = sum(p.norm().item() for p in global_policy.parameters())
+        logger.info(f"Initialized global policy with {num_params:,} parameters, norm={initial_global_norm:.4f}")
 
     # Initialize FedAvg strategy
     strategy = FedAvg(fraction_evaluate=fraction_evaluate)
@@ -108,7 +109,12 @@ def main(grid: Grid, context: Context) -> None:
 
     # Save final model to disk
     if verbose:
-        logger.info("Training complete! Saving final policy to disk...")
+        final_policy = TorchRLPolicy(obs_dim, action_dim, hidden_sizes=hidden_sizes)
+        final_policy.load_state_dict(result.arrays.to_torch_state_dict())
+        final_global_norm = sum(p.norm().item() for p in final_policy.parameters())
+        global_weight_change = abs(final_global_norm - initial_global_norm)
+        logger.info(f"Training complete! Global weight change: {global_weight_change:.4f}")
+        logger.info("Saving final policy to disk...")
     else:
         print("\nSaving final policy to disk...")
     state_dict = result.arrays.to_torch_state_dict()
@@ -122,9 +128,6 @@ def global_evaluate(server_round: int, arrays: ArrayRecord, hidden_sizes: list[i
         This centralized evaluation is for monitoring training progress only.
         Real federated RL should use distributed evaluation across clients.
     """
-
-    if verbose:
-        logger.info(f"Round {server_round}: Evaluating global policy...")
 
     # Get device
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -149,6 +152,10 @@ def global_evaluate(server_round: int, arrays: ArrayRecord, hidden_sizes: list[i
     policy_net = TorchRLPolicy(obs_dim, action_dim, hidden_sizes=hidden_sizes)
     policy_net.load_state_dict(arrays.to_torch_state_dict())
     policy_net.to(device)
+
+    if verbose:
+        round_weight_norm = sum(p.norm().item() for p in policy_net.parameters())
+        logger.info(f"Round {server_round}: Evaluating global policy, weight_norm={round_weight_norm:.4f}")
 
     # Evaluate the global policy
     eval_metrics = evaluate_policy(

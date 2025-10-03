@@ -120,6 +120,12 @@ def train_reinforce(
         optimizer.zero_grad()
         loss = torch.stack(policy_loss).sum()
         loss.backward()
+
+        # Check gradient magnitudes (for first episode only to avoid spam)
+        if episode == 0:
+            total_grad_norm = sum(p.grad.norm().item() for p in policy_net.parameters() if p.grad is not None)
+            print(f"Episode 0: loss={loss.item():.4f}, grad_norm={total_grad_norm:.4f}, returns_mean={returns.mean().item():.4f}")
+
         optimizer.step()
 
         # Track metrics

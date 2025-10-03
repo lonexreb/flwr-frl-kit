@@ -42,7 +42,7 @@ env-name = "CartPole-v1"
 partition-strategy = "seed"  # Options: seed, task_list, config_list
 
 # Logging configuration
-verbose = false  # Set to true to enable detailed logging (useful with --stream flag)
+verbose = true  # Set to true to enable detailed logging (useful with --stream flag)
 
 # Network architecture configuration
 network-hidden-sizes = "128,128"  # Hidden layer sizes for policy network (comma-separated)

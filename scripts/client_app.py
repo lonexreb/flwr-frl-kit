@@ -87,11 +87,18 @@ def train(msg: Message, context: Context):
     # Initialize policy network using TorchRL MLP
     policy_net = TorchRLPolicy(obs_dim, action_dim, hidden_sizes=hidden_sizes)
 
+    # Track initial weights
+    initial_weight_norm = sum(p.norm().item() for p in policy_net.parameters())
+
     # Load weights if provided
     if "arrays" in msg.content:
         policy_net.load_state_dict(msg.content["arrays"].to_torch_state_dict())
+        initial_weight_norm = sum(p.norm().item() for p in policy_net.parameters())
         if verbose:
-            logger.info("Loaded global model weights")
+            logger.info(f"Loaded global model weights, norm={initial_weight_norm:.4f}")
+    else:
+        if verbose:
+            logger.warning("⚠️ No arrays in message - using random initialization!")
 
     # Training configuration
     num_episodes = context.run_config.get("local-epochs", 10)
@@ -111,11 +118,15 @@ def train(msg: Message, context: Context):
     )
 
     if verbose:
+        final_weight_norm = sum(p.norm().item() for p in policy_net.parameters())
+        weight_change = abs(final_weight_norm - initial_weight_norm) if "arrays" in msg.content else final_weight_norm
         logger.info(
             f"Training complete: "
             f"reward={train_metrics['avg_episode_reward']:.2f}, "
             f"length={train_metrics['avg_episode_length']:.1f}, "
-            f"steps={train_metrics['total_steps']}"
+            f"steps={train_metrics['total_steps']}, "
+            f"weight_norm={final_weight_norm:.4f}, "
+            f"change={weight_change:.4f}"
         )
 
     # Construct and return reply Message
