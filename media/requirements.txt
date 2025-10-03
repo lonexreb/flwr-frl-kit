@@ -1,0 +1,10 @@
+# Animation and visualization libraries
+manim>=0.18.0
+pillow>=10.0.0
+numpy>=1.24.0
+
+# Reinforcement learning environment
+gymnasium>=0.29.0
+
+# Optional: Image processing utilities
+imageio>=2.31.0

@@ -1,0 +1,75 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "flwr-frl-kit"
+version = "1.0.0"
+description = "Federated Reinforcement Learning with PyTorch, TorchRL, and Flower"
+license = "Apache-2.0"
+dependencies = [
+    "flwr[simulation]>=1.22.0",
+    "torch==2.8.0",
+    "torchrl>=0.5.0",
+    "tensordict>=0.5.0",
+    "gymnasium>=0.29.0",
+    "numpy>=1.24.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["."]
+
+[tool.flwr.app]
+publisher = "flwrlabs"
+
+[tool.flwr.app.components]
+serverapp = "scripts.server_app:app"
+clientapp = "scripts.client_app:app"
+
+[tool.flwr.app.config]
+# Federated Learning parameters
+num-server-rounds = 10
+fraction-evaluate = 0.5
+
+# RL Training parameters
+local-epochs = 100  # Number of episodes per client per round
+learning-rate = 0.001  # Policy gradient learning rate
+gamma = 0.99  # Discount factor for returns
+
+# Environment configuration
+env-type = "gym"
+env-name = "CartPole-v1"
+partition-strategy = "seed"  # Options: seed, task_list, config_list
+
+# Logging configuration
+verbose = false  # Set to true to enable detailed logging (useful with --stream flag)
+
+# Network architecture configuration
+network-hidden-sizes = "128,128"  # Hidden layer sizes for policy network (comma-separated)
+network-activation = "ReLU"  # Activation function
+
+[tool.flwr.federations]
+default = "local-simulation"
+
+[tool.flwr.federations.local-simulation]
+options.num-supernodes = 2
+
+[tool.flwr.federations.local-simulation-gpu]
+options.num-supernodes = 2
+options.backend.client-resources.num-cpus = 2 # each ClientApp assumes to use 2CPUs
+options.backend.client-resources.num-gpus = 0.2 # at most 5 ClientApp will run in a given GPU
+
+[tool.rl_core]
+# Custom RL Core configuration (non-Flower)
+# Policy network configuration
+network.type = "MLP"
+network.hidden_sizes = [128, 128]
+network.activation = "ReLU"
+
+# REINFORCE algorithm settings
+algorithm.max_episode_steps = 1000
+algorithm.normalize_returns = true
+
+# Environment settings
+environment.base_seed = 42
+# environment.render_mode = "human"  # Uncomment to enable visualization
